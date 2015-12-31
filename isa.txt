@@ -1,0 +1,71 @@
+Opcode formats
+
+Register move:
+mov rD, rS[, [+|-]0xB]
+0010_1DDD_SSSP_BBBB
+D = destination register
+S = source register
+P = bitshift direction (0 = left (+), 1 = right (-))
+B = bitshift offset
+
+Register branch:
+b[cond|x] rR[, [+|-]0xOO]
+0011_0CCR_RRSO_OOOO
+C = condition code
+R = target register
+S = sign of offset (1 => negative)
+O = offset
+
+PC-relative load/store:
+ldr|str rR, pc[, [+|-]0xOOOO]
+010L_RRRS_OOOO_OOOO
+L = load/store (0 => load)
+R = target register
+S = sign of offset (1 => negative)
+O = offset
+
+PC-relative branch:
+b[cond|x] pc[, [+|-]0x000]
+011C_CSOO_OOOO_OOOO
+C = condition code
+S = sign of offset (1 => negative)
+O = offset
+
+Register move immediate:
+mov rD, 0xIII
+100D_DDII_IIII_IIII
+D = destination register
+I = immediate
+
+Register load/store:
+ldr|str rT, rA[, [+|-]0xOOOO]
+101L_TTTA_AAPO_OOOO
+L = load/store (0 => load)
+T = target register
+A = address register
+P = sign of offset (1 => negative)
+O = offset
+
+
+ALU operation:
+opc rD[, rA[, rB]]
+11DD_DAAA_BBBO_OOOO
+D = destination register
+A,B = operand registers
+O = opcode
+
+ALU opcodes:
+mnemonic	opcode
+add		00000
+adc		00001
+sub		00010
+not		00011
+and		00100
+or		00101
+xor		00110
+csr		00111
+csl		01000
+lsr		01001
+lsl		01010
+
+The ALU does not support immediate arguments.
